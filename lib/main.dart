@@ -2,7 +2,7 @@ import 'package:application_2/screens/geolocation_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

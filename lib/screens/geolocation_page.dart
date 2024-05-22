@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:application_2/screens/map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -19,6 +21,30 @@ class _GeolocationPageState extends State<GeolocationPage> {
   late String lat;
   late String long;
   String locationMessage = "Location message";
+  StreamSubscription? positionStream;
+
+  final LocationSettings locationSettings = LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+  @override
+  void initState() {
+    super.initState();
+    positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) {
+      setState(() {
+        _currentLocation = position;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    positionStream!.cancel();
+
+    super.dispose();
+  }
 
   String _currentAdress = "";
   Future<Position> _getCurrentLocation() async {
